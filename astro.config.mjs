@@ -6,7 +6,7 @@ import staticAdapter from '@astrojs/adapter-static';
 // https://astro.build/config
 export default defineConfig({
 
-  site: 'https://kexuancai.github.io',
+  site: 'https://ckxzxc.github.io',
   base: '/measure-by-measure',
 
 
