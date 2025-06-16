@@ -1,0 +1,79 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import type { GetStaticPaths } from "astro";
+import { fetchCollectionMetas, fetchCollectionBySlug, fetchExerciseMetas } from "../../../../lib/fetch";
+import { GetHookCollectionState } from "sanity";
+
+
+export async function getStaticPaths() {
+  const collections = await fetchCollectionMetas();
+
+  return collections.map((col:any) => ({
+    params: {
+      category: col.relatedCategory.slug.current,
+      collection: col.slug.current,
+    },
+  }));
+}
+
+
+const { category, collection } = Astro.params;
+const collectionInfo = await fetchCollectionBySlug(collection);
+const exerciseList = await fetchExerciseMetas(collection);
+
+const collectionDocs = await getCollection('exerciseCollectionDocs');
+const doc = collectionDocs.find(d => d.data.collectionSlug === collection) as any;
+const {Content} = await doc.render();
+---
+
+
+
+<Layout title={ collectionInfo.title } description={collectionInfo.description}>
+
+  <div class="mx-4 sm:mx-24 mt-16 space-y-12">
+
+    <div class="breadcrumbs text-sm">
+      <ul>
+        <li><a href=`/${category}`>{collectionInfo.relatedCategory.title}</a></li>
+        <li><a href=`/${category}/${collection}`>{collectionInfo.title}</a></li>
+      </ul>
+    </div>
+
+    <div class="space-y-4">
+      <h1 class="text-3xl font-bold">{collectionInfo.title}</h1>
+      <p>{collectionInfo.description}</p>
+    </div>
+
+    <hr class="border-1 border-base-300">
+
+      <!-- name of each tab group should be unique -->
+      <div class="tabs tabs-lift">
+        <input type="radio" name="tab_content" class="tab" aria-label="Overview" checked="checked" />
+        <div class="tab-content bg-base-100 border-base-300 p-6">
+          <article class="prose max-w-none my-8 md:mx-12">
+            <Content />
+          </article>
+        </div>
+
+        <input type="radio" name="tab_content" class="tab" aria-label="Exercise List"/>
+        <div class="tab-content bg-base-100 border-base-300 p-6">
+          <ul class="list">
+            {
+              exerciseList.map((ex:any) => (
+                <a href={`/${category}/${collection}/${ex.slug.current}`}>
+                  <li class="list-row hover:bg-base-200">{ex.title}</li>
+                </a>
+              ))
+            }
+          </ul>
+        </div>
+
+      </div>
+
+  </div>
+ 
+
+
+</Layout>
+

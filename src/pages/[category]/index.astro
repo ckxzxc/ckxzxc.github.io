@@ -1,0 +1,66 @@
+---
+// Import functions
+import type { GetStaticPaths } from "astro";
+import { fetchCollectionMetas } from "../../../lib/fetch";
+
+// Import layouts
+import Layout from "../../layouts/Layout.astro";
+
+// Fetching paths
+export async function getStaticPaths() {
+  const collections = await fetchCollectionMetas();
+  const categories = [...new Set (collections.map((col:any) => col.relatedCategory.slug.current))];
+
+  return categories.map((category:any) => ({
+    params: { category }
+  }));
+
+
+}
+
+const { category } = Astro.params;
+const collections = await fetchCollectionMetas();
+
+const cols:any = [...new Set(
+  collections
+    .filter((co:any) => co.relatedCategory.slug.current === category)
+)];
+
+
+const currentCat = cols[0]['relatedCategory'];
+---
+
+<Layout title={ currentCat.title } description={currentCat.description}>
+  <div class="mx-4 sm:mx-24 mt-16 space-y-8">
+    <div class="space-y-4">
+      <h1 class="text-3xl font-bold">{ currentCat.title }</h1>
+      <p>
+          { currentCat.description }
+      </p>
+    </div>
+
+    <hr class="border-1 border-base-300">
+
+    <div class="flex flex-wrap md:p-4 gap-2">
+      {
+        cols.map((c:any) => (
+          <div class="card w-88 border-1 border-base-400 bg-base-100">
+            <div class="card-body">
+              <h2 class="card-title">{c.title}</h2>
+              <p class="text-neutral-600">{c.description}</p>
+              <div class="badge badge-primary">{c.level}</div>
+              <div class="justify-end card-actions">
+                <a href={`/${currentCat.slug.current}/${c.slug.current}`} class="text-sm font-semibold">
+                  <button class="btn btn-ghost">View Details →</button>
+                </a>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+  </div>
+
+
+</Layout>

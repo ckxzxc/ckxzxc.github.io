@@ -1,0 +1,35 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Contact" description="Contact information">
+    <div class="flex-cols md:flex mx-4 sm:mx-16 mt-16 space-y-8 gap-8">
+        <div class="space-y-8 md:w-2/3 self-center">
+            <h1 class="text-3xl font-bold">Contact</h1>
+            <p class="text-base/7">
+                If you find an error on the site or in the content, 
+                or have any kinds of suggestions, send me a message.
+                Your feedback is greatly welcomed and appreciated!
+            </p>
+ 
+        </div>
+        <form action="https://formsubmit.co/607930f15aaec036dda58f6875d436e4" method="POST" enctype=multipart/form-data class="w-full space-y-2">
+
+                <input type="text" class="input w-full" id="contact-form-name" name="name" placeholder="Name" required>
+
+                <input type="email" class="input w-full" id="contact-form-email" name="email" placeholder="Email Address" required>
+
+                <select class="select w-full" id="contact-form-subject" name="_subject" required>
+                    <option disabled selected>Select a Subject</option>
+                    <option value="site-error-report">Site Error</option>
+                    <option value="content-error-report">Content Error</option>
+                    <option value="general-suggestions">General Suggestions</option>
+                    <option value="other">Other</option>
+                </select>
+
+                <textarea class="textarea w-full h-80" id="contact-form-message" name="contact-form-message" placeholder="Your Message" required></textarea>
+
+            <button type="submit" class="btn btn-primary m-2 py-4 px-8">Send</button>
+        </form>
+    </div>
+</Layout>

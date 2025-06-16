@@ -1,0 +1,35 @@
+---
+const {currentCollection, exerciseList} = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<aside class="drawer w-auto z-6">
+    <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+
+    <div class="drawer-side">
+      <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+      <ul class="menu bg-base-200 text-base-content min-h-full w-96 p-4 pt-16">
+        <li>
+
+          <h2 class="menu-title">
+            <a class="link" href={`/${currentCollection.relatedCategory.slug.current}/${currentCollection.slug.current}`}>{currentCollection.title}</a>
+          </h2>
+          
+          <ul class="space-y-2">
+            {exerciseList ? (
+              exerciseList.map((exercise:any) => (
+                <li>
+                  <a href={`/${exercise.relatedCollection.relatedCategory.slug.current}/${exercise.relatedCollection.slug.current}/${exercise.slug.current}`} 
+                    class={(currentPath === `/${exercise.relatedCollection.relatedCategory.slug.current}/${exercise.relatedCollection.slug.current}/${exercise.slug.current}`) ? 'menu-active' : ''}>
+                    {exercise.title}
+                  </a>
+                </li>
+              ))
+        
+              ): (<p>no exercises</p>)}
+          </ul>
+
+        </li>
+      </ul>
+    </div>
+  </aside>

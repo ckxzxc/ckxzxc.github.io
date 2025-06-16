@@ -1,0 +1,172 @@
+---
+import type { GetStaticPaths } from "astro";
+
+import { fetchAllExercises, fetchExerciseMetas, fetchExerciseBySlug } from "../../../../lib/fetch";
+import Layout from '../../../layouts/Layout.astro';
+import Sidebar from "../../../components/Sidebar.astro";
+
+export async function getStaticPaths() {
+  const allExercises = await fetchAllExercises();
+
+  return allExercises.map((ex:any) => ({
+    params: {
+      category: ex.relatedCollection.relatedCategory.slug.current,
+      collection: ex.relatedCollection.slug.current,
+      slug: ex.slug.current
+    },
+  }));
+}
+
+const {category, collection, slug} = Astro.params;
+const exerciseMetas = await fetchExerciseMetas(collection);
+const exercise = await fetchExerciseBySlug(slug);
+
+
+const templateABCFile = await fetch(exercise.templateABC.asset.url);
+const hintABCFile = await fetch(exercise.hintABC.asset.url);
+const solutionABCFile = await fetch(exercise.solutionABC.asset.url);
+
+const templateABC = await templateABCFile.text();
+const hintABC = await hintABCFile.text();
+const solutionABC = await solutionABCFile.text();
+
+---
+
+
+<Layout title=`${exercise.relatedCollection.title} - ${ exercise.title }` description=`${exercise.relatedCollection.title} - ${ exercise.title }`>
+
+    <Sidebar exerciseList={exerciseMetas} currentCollection={exercise.relatedCollection}/>
+    <div>
+      <label for="my-drawer" class="btn btn-neutral btn-outline drawer-button mt-2 ml-2">Menu</label>
+    </div>
+
+    <div class="drawer-content flex flex-col lg:flex-row justify-between gap-1 space-y-2 m-2 lg:h-screen">
+
+      <section class="w-full lg:w-3/5 h-full space-y-4 border-1 border-base-300 rounded-md">
+        <!-- name of each tab group should be unique -->
+        <div class="w-full h-full tabs tabs-border">
+
+          <input type="radio" name="section_tabs" class="tab" aria-label="Canva" checked="checked" />
+          <div class="w-full h-full lg:max-h-9/10 tab-content overflow-y-auto">
+
+            <div class="w-full overflow-x-auto">
+              <div id="user-edit-canva" class="min-w-max"></div>
+            </div>
+
+          </div>
+
+          <input type="radio" name="section_tabs" class="tab" aria-label="Solution" />
+          <div class="w-full h-full lg:max-h-9/10 overflow-auto tab-content">
+              <div class="w-full overflow-x-auto">
+                <div id="solution-canva" class="min-w-max"></div>
+              </div>
+              <div class="p-2">
+                <textarea class="textarea textarea-lg w-full min-h-100 text-nowrap tracking-wide" id="solution-abc-textarea" disabled>{solutionABC.trim()}</textarea>
+                <div id="solution-canva-warnings" hidden></div>
+              </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="min-w-2/5 h-full overflow-auto bg-base-100 p-4 space-y-4 rounded-md border-1 border-base-300">
+
+        <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+          <button class="btn btn-ghost" id="hint-button">Hint Mode</button>
+          <div class="w-full" id="audio"></div>
+        </div>
+
+        <div class="space-y-4">
+          <textarea id="user-abc-textarea" class="textarea textarea-lg w-full min-h-100 text-nowrap tracking-wide">{templateABC.trim()}</textarea>
+          <div class="flex gap-2 justify-end">
+            
+            <button class="btn btn-ghost" id="reset-button">Reset</button>
+            <button class="btn btn-accent" id="check-answer-button">Check Answer</button>
+          </div>
+          <span class="float-right" id="checking-result"></span>
+          <div id="warnings"></div>
+        </div>
+
+      </section>
+    </div>
+
+  <script slot="source" src="/assets/abcjs/abc.js" defer>  
+  </script>
+
+
+</Layout>
+
+
+<link slot="style" rel="stylesheet" href="/assets/abcjs/abc-audio.css"/>
+<script define:vars={{ templateABC, hintABC, solutionABC }}>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    let userEditor = new ABCJS.Editor("user-abc-textarea", {
+          canvas_id: "user-edit-canva",
+          warnings_id: "warnings",
+        });
+
+    let solutionDisplay = new ABCJS.Editor("solution-abc-textarea", {
+        canvas_id: "solution-canva",
+        warnings_id: "solution-canva-warnings"
+      })
+
+
+
+    const userABCTextArea = document.getElementById('user-abc-textarea');
+    const resetBtn = document.getElementById('reset-button');
+    const hintBtn = document.getElementById('hint-button');
+    const checkAnwsertBtn = document.getElementById('check-answer-button');
+    let result = document.getElementById('checking-result');
+
+    const synthControl = new ABCJS.synth.SynthController();
+    synthControl.load("#audio", false, {
+      displayRestart: true,
+      displayPlay: true,
+      displayProgress: true,
+      displayWarp: true,
+    });
+
+    const visualObj = ABCJS.renderAbc("solution-canva", solutionABC)[0];
+
+    const synth = new ABCJS.synth.CreateSynth();
+    synth
+      .init({
+        visualObj: visualObj,
+      })
+      .then(() => {
+        synthControl.setTune(visualObj, false);
+      })
+      .catch((error) => {
+        console.warn("Synth failed to initialize:", error);
+      });
+
+
+    resetBtn.onclick = function() {
+      userABCTextArea.value = templateABC;
+      result.innerHTML = '';
+    };
+
+    hintBtn.onclick = function() {
+      userABCTextArea.value = hintABC;
+      result.innerHTML = '';
+    };
+
+    checkAnwsertBtn.onclick = function() {
+      let userAttempt = userABCTextArea.value.replace(/\s+/g, '');
+      let correctAnswer = solutionABC.replace(/\s+/g, '');
+      
+      if (userAttempt === correctAnswer) {
+        result.innerHTML = 'Your answer is correct ♪♪♪ ヽ(ˇ∀ˇ )ゞ';
+        result.style.color = 'green';
+      } else {
+        result.innerHTML = "ヽ(　￣д￣)ノ Not quite right. Try again?";
+        result.style.color = 'orangered';
+      }
+    };
+
+  });
+
+</script>
+
+
