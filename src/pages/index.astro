@@ -1,11 +1,39 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Measure by Measure - Home" description="Welcome to my website. This is a project featuring music dictation exercises that built around my practice writings.">
+
+    <div class="justify-center flex-cols items-center space-y-32 mx-4 sm:mx-24 mt-24">
+
+        <Hero />
+
+        <p class="text-sm text-center">
+            This site is in development.
+            <br>
+            There's still plenty to improve, and more content will be added over time.
+        </p>
+
+        <div class="flex-cols lg:flex justify-center gap-24 space-y-12 mt-20">
+            <div class="w-4/5 sm:w-1/2 lg:w-1/3">
+                <img class="rounded-lg" src="assets/homepage-image.jpg" alt="Music rhymes pl8 (1927) Dic Loscalzo (American, 1896-1945)">
+            </div>
+            <div class="self-center">
+                <h2 class="text-lg font-semibold">Work in Progress</h2>
+                <ul class="steps steps-vertical">
+                    <li data-content="✓" class="step step-accent">Adding first two-part dictation exercise collection</li>
+                    <li data-content="" class="step">Creating two-part dictation exercises with slightly more melodic embellishment</li>
+                    <li data-content="" class="step">Working toward 100 dictation exercises...</li>
+                    <li data-content="" class="step">Writing a short ABC notation tutorial</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    
 </Layout>
