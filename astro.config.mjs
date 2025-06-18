@@ -5,7 +5,6 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
 
   site: 'https://ckxzxc.github.io',
-  base: '/measure-by-measure',
 
   vite: {
     plugins: [tailwindcss()],
