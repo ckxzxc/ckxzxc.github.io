@@ -1,0 +1,10 @@
+{
+  "index": 24,
+  "title": "Exercise 24",
+  "slug": "exercise-24",
+  "category": "ear-training",
+  "collection": "two-part-dictation-i",
+  "templateABC": "X: 1\nT: Two-Part Dictation I, Exercise 24\nM: C\nQ: 1/4=68\nL: 1/4\nK: Amaj\n%%staves {V1 V2}\nV: V1 clef=treble\nV: V2 clef=bass\n[V: V1] A z3 | z4 | z4 |]\n[V: V2] z4 | z4 | z4 |]",
+  "hintABC": "X: 1\nT: Two-Part Dictation I, Exercise 24\nM: C\nQ: 1/4=68\nL: 1/4\nK: Amaj\n%%staves {V1 V2}\nV: V1 clef=treble\nV: V2 clef=bass\n[V: V1] A z z z | z z2 ^d | e4 |]\n[V: V2] C, z z z  | z z2 z | G,4 |]",
+  "solutionABC": "X: 1\nT: Two-Part Dictation I, Exercise 24\nM: C\nQ: 1/4=68\nL: 1/4\nK: Amaj\n%%staves {V1 V2}\nV: V1 clef=treble\nV: V2 clef=bass\n[V: V1] A c B e | c e2 ^d | e4 |]\n[V: V2] C, A,, D, B,,  | E, A,,2 A, | G,4 |]"
+}

@@ -1,48 +1,50 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
-import { getCollection } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 import type { GetStaticPaths } from "astro";
-import { fetchCollectionMetas, fetchCollectionBySlug, fetchExerciseMetas } from "../../../../lib/fetch";
-import { GetHookCollectionState } from "sanity";
+
 
 
 export async function getStaticPaths() {
-  const collections = await fetchCollectionMetas();
+  const collections = await getCollection('exerciseCollections');
 
   return collections.map((col:any) => ({
     params: {
-      category: col.relatedCategory.slug.current,
-      collection: col.slug.current,
+      category: col.data.category,
+      collection: col.data.slug,
     },
   }));
 }
 
 
 const { category, collection } = Astro.params;
-const collectionInfo = await fetchCollectionBySlug(collection);
-const exerciseList = await fetchExerciseMetas(collection);
+const currentCategory = await getEntry("categories", category);
+const collectionInfo = await getEntry('exerciseCollections', `${category}/${collection}`);
+const exerciseList = await getCollection('exercises');
+const exerciseSorted = exerciseList.sort((a, b) => a.data.index - b.data.index);
 
 const collectionDocs = await getCollection('exerciseCollectionDocs');
 const doc = collectionDocs.find(d => d.data.collectionSlug === collection) as any;
+
 const {Content} = await doc.render();
 ---
 
 
 
-<Layout title={ collectionInfo.title } description={collectionInfo.description}>
+<Layout title={ collectionInfo?.data.title } description={collectionInfo?.data.description}>
 
   <div class="mx-4 sm:mx-24 mt-16 space-y-12">
 
     <div class="breadcrumbs text-sm">
       <ul>
-        <li><a href=`/${category}`>{collectionInfo.relatedCategory.title}</a></li>
-        <li><a href=`/${category}/${collection}`>{collectionInfo.title}</a></li>
+        <li><a href=`/${category}`>{currentCategory?.data.title}</a></li>
+        <li><a href=`/${category}/${collection}`>{collectionInfo?.data.title}</a></li>
       </ul>
     </div>
 
     <div class="space-y-4">
-      <h1 class="text-3xl font-bold">{collectionInfo.title}</h1>
-      <p>{collectionInfo.description}</p>
+      <h1 class="text-3xl font-bold">{collectionInfo?.data.title}</h1>
+      <p>{collectionInfo?.data.description}</p>
     </div>
 
     <hr class="border-1 border-base-300">
@@ -60,9 +62,9 @@ const {Content} = await doc.render();
         <div class="tab-content bg-base-100 border-base-300 p-6">
           <ul class="list">
             {
-              exerciseList.map((ex:any) => (
-                <a href={`/${category}/${collection}/${ex.slug.current}`}>
-                  <li class="list-row hover:bg-base-200">{ex.title}</li>
+              exerciseSorted.map((ex:any) => (
+                <a href={`/${category}/${collection}/${ex.data.slug}`}>
+                  <li class="list-row hover:bg-base-200">{ex.data.title}</li>
                 </a>
               ))
             }

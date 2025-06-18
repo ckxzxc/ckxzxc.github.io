@@ -1,0 +1,10 @@
+{
+  "index": 21,
+  "title": "Exercise 21",
+  "slug": "exercise-21",
+  "category": "ear-training",
+  "collection": "two-part-dictation-i",
+  "templateABC": "X: 1\nT: Two-Part Dictation I, Exercise 21\nM: 3/2\nQ: 1/2=68\nL: 1/2\nK: Cmaj\n%%staves {V1 V2}\nV: V1 clef=treble\nV: V2 clef=bass\n[V: V1] z3 | z3 | z3 | z3 | z3 |]\n[V: V2] C,2 z | z3 | z3 | z3 | z3 |]",
+  "hintABC": "X: 1\nT: Two-Part Dictation I, Exercise 21\nM: 3/2\nQ: 1/2=68\nL: 1/2\nK: Cmaj\n%%staves {V1 V2}\nV: V1 clef=treble\nV: V2 clef=bass\n[V: V1] z2 G | z z z | z z z | z z z | z/ z/ z/ z/ E |]\n[V: V2] C,2 z | z z z | z z z | z z z | z/ z/ z/ z/ C, |]",
+  "solutionABC": "X: 1\nT: Two-Part Dictation I, Exercise 21\nM: 3/2\nQ: 1/2=68\nL: 1/2\nK: Cmaj\n%%staves {V1 V2}\nV: V1 clef=treble\nV: V2 clef=bass\n[V: V1] z2 G | A A D | G G C | F D G | E/ D/ C/ D/ E |]\n[V: V2] C,2 E, | F, D, B,, | E, C, A,, | D, G,, E, | C,/ F,/ G,/ F,/ C, |]"
+}

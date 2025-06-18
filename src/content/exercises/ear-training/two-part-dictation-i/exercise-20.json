@@ -1,0 +1,10 @@
+{
+  "index": 20,
+  "title": "Exercise 20",
+  "slug": "exercise-20",
+  "category": "ear-training",
+  "collection": "two-part-dictation-i",
+  "templateABC": "X: 1\nT: Two-Part Dictation I, Exercise 20\nM: 6/8\nQ: 1/8=90\nL: 1/8\nK: Dmaj\n%%staves {V1 V2}\nV: V1 clef=treble\nV: V2 clef=bass\n[V: V1] z6 | z6 | z6 |]\n[V: V2] G,3 z3 | z6 | z6 |]",
+  "hintABC": "X: 1\nT: Two-Part Dictation I, Exercise 20\nM: 6/8\nQ: 1/8=90\nL: 1/8\nK: Dmaj\n%%staves {V1 V2}\nV: V1 clef=treble\nV: V2 clef=bass\n[V: V1] z Bz zzz | zzz zzz- | z ^e2 f3 |]\n[V: V2] G,3 z2 z | z3 z2 z | ^G,3 F,3 |]",
+  "solutionABC": "X: 1\nT: Two-Part Dictation I, Exercise 20\nM: 6/8\nQ: 1/8=90\nL: 1/8\nK: Dmaj\n%%staves {V1 V2}\nV: V1 clef=treble\nV: V2 clef=bass\n[V: V1] z BB ccc | ddB fcf- | f ^e2 f3 |]\n[V: V2] G,3 E,2 A, | F,3 C,2 A,, | ^G,3 F,3 |]"
+}

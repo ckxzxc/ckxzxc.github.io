@@ -1,0 +1,10 @@
+{
+  "index": 19,
+  "title": "Exercise 19",
+  "slug": "exercise-19",
+  "category": "ear-training",
+  "collection": "two-part-dictation-i",
+  "templateABC": "X: 1\nT: Two-Part Dictation I, Exercise 19\nM: C|\nQ: 1/2=30\nL: 1/2\nK: Gmaj\n%%staves {V1 V2}\nV: V1 clef=treble\nV: V2 clef=bass\n[V: V1] d z | z2 | z2 | z2 | z2 |]\n[V: V2] z2 | z2 | z2 | z2 | z2 |]",
+  "hintABC": "X: 1\nT: Two-Part Dictation I, Exercise 19\nM: C|\nQ: 1/2=30\nL: 1/2\nK: Gmaj\n%%staves {V1 V2}\nV: V1 clef=treble\nV: V2 clef=bass\n[V: V1] d z | z z | z z | z3/ z//z// | B2 |]\n[V: V2] G, z | z z | z z | z3/ z/ | G,2 |]",
+  "solutionABC": "X: 1\nT: Two-Part Dictation I, Exercise 19\nM: C|\nQ: 1/2=30\nL: 1/2\nK: Gmaj\n%%staves {V1 V2}\nV: V1 clef=treble\nV: V2 clef=bass\n[V: V1] d d | b, e | F G | c3/ B//A// | B2 |]\n[V: V2] G, B, | E G, | A, E, | F,3/ D,/ | G,2 |]"
+}

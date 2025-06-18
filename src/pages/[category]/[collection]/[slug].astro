@@ -1,41 +1,40 @@
 ---
 import type { GetStaticPaths } from "astro";
-
-import { fetchAllExercises, fetchExerciseMetas, fetchExerciseBySlug } from "../../../../lib/fetch";
+import { getCollection, getEntries, getEntry } from "astro:content";
 import Layout from '../../../layouts/Layout.astro';
 import Sidebar from "../../../components/Sidebar.astro";
 
+
 export async function getStaticPaths() {
-  const allExercises = await fetchAllExercises();
+  const allExercises = await getCollection('exercises');
 
   return allExercises.map((ex:any) => ({
     params: {
-      category: ex.relatedCollection.relatedCategory.slug.current,
-      collection: ex.relatedCollection.slug.current,
-      slug: ex.slug.current
+      category: ex.data.category,
+      collection: ex.data.collection,
+      slug: ex.data.slug
     },
   }));
 }
 
 const {category, collection, slug} = Astro.params;
-const exerciseMetas = await fetchExerciseMetas(collection);
-const exercise = await fetchExerciseBySlug(slug);
+const currentCollection = await getEntry('exerciseCollections', `${category}/${collection}`);
+const exercise = await getEntry('exercises', `${category}/${collection}/${slug}`);
+const exerciseList = await getCollection('exercises');
+const exerciseSorted = exerciseList.sort((a, b) => a.data.index - b.data.index);
 
 
-const templateABCFile = await fetch(exercise.templateABC.asset.url);
-const hintABCFile = await fetch(exercise.hintABC.asset.url);
-const solutionABCFile = await fetch(exercise.solutionABC.asset.url);
+const templateABC = exercise?.data.templateABC;
+const hintABC = exercise?.data.hintABC;
+const solutionABC = exercise?.data.solutionABC;
 
-const templateABC = await templateABCFile.text();
-const hintABC = await hintABCFile.text();
-const solutionABC = await solutionABCFile.text();
 
 ---
 
 
-<Layout title=`${exercise.relatedCollection.title} - ${ exercise.title }` description=`${exercise.relatedCollection.title} - ${ exercise.title }`>
+<Layout title=`${currentCollection?.data.title} - ${ exercise?.data.title }` description=`${currentCollection?.data.title} - ${ exercise?.data.title }`>
 
-    <Sidebar exerciseList={exerciseMetas} currentCollection={exercise.relatedCollection}/>
+    <Sidebar exerciseList={exerciseSorted} currentCollection={currentCollection}/>
     <div>
       <label for="my-drawer" class="btn btn-neutral btn-outline drawer-button mt-2 ml-2">Menu</label>
     </div>
@@ -61,7 +60,7 @@ const solutionABC = await solutionABCFile.text();
                 <div id="solution-canva" class="min-w-max"></div>
               </div>
               <div class="p-2">
-                <textarea class="textarea textarea-lg w-full min-h-100 text-nowrap tracking-wide" id="solution-abc-textarea" disabled>{solutionABC.trim()}</textarea>
+                <textarea class="textarea textarea-lg w-full min-h-100 text-nowrap tracking-wide" id="solution-abc-textarea" disabled>{solutionABC?.trim()}</textarea>
                 <div id="solution-canva-warnings" hidden></div>
               </div>
           </div>
@@ -77,7 +76,7 @@ const solutionABC = await solutionABCFile.text();
         </div>
 
         <div class="space-y-4">
-          <textarea id="user-abc-textarea" class="textarea textarea-lg w-full min-h-100 text-nowrap tracking-wide">{templateABC.trim()}</textarea>
+          <textarea id="user-abc-textarea" class="textarea textarea-lg w-full min-h-100 text-nowrap tracking-wide">{templateABC}</textarea>
           <div class="flex gap-2 justify-end">
             
             <button class="btn btn-ghost" id="reset-button">Reset</button>
@@ -99,6 +98,8 @@ const solutionABC = await solutionABCFile.text();
 
 <link slot="style" rel="stylesheet" href="/assets/abcjs/abc-audio.css"/>
 <script define:vars={{ templateABC, hintABC, solutionABC }}>
+
+
   document.addEventListener('DOMContentLoaded', () => {
 
     let userEditor = new ABCJS.Editor("user-abc-textarea", {

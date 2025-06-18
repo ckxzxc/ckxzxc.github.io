@@ -1,0 +1,10 @@
+{
+  "index": 22,
+  "title": "Exercise 22",
+  "slug": "exercise-22",
+  "category": "ear-training",
+  "collection": "two-part-dictation-i",
+  "templateABC": "X: 1\nT: Two-Part Dictation I, Exercise 22\nM: C\nQ: 1/4=68\nL: 1/4\nK: Dmaj\n%%staves {V1 V2}\nV: V1 clef=treble\nV: V2 clef=bass\n[V: V1] z4 | z4 | z4 |]\n[V: V2] G, z3 | z4 | z4 |]",
+  "hintABC": "X: 1\nT: Two-Part Dictation I, Exercise 22\nM: C\nQ: 1/4=68\nL: 1/4\nK: Dmaj\n%%staves {V1 V2}\nV: V1 clef=treble\nV: V2 clef=bass\n[V: V1] z f z z | z z z z | B4 |]\n[V: V2] G, z z z | z z z z | G,4 |]",
+  "solutionABC": "X: 1\nT: Two-Part Dictation I, Exercise 22\nM: C\nQ: 1/4=68\nL: 1/4\nK: Dmaj\n%%staves {V1 V2}\nV: V1 clef=treble\nV: V2 clef=bass\n[V: V1] z f f f | f d e f | B4 |]\n[V: V2] G, A, F, D, | A, B, C F, | G,4 |]"
+}

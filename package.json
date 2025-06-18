@@ -10,18 +10,14 @@
   },
   "dependencies": {
     "@astrojs/react": "^4.3.0",
-    "@sanity/astro": "^3.2.6",
-    "@sanity/client": "^6.29.1",
     "@tailwindcss/vite": "^4.1.7",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
-    "abcjs": "^6.4.4",
     "astro": "^5.7.10",
     "daisyui": "^5.0.35",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-is": "^19.1.0",
-    "sanity": "^3.90.0",
     "styled-components": "^6.1.18",
     "tailwindcss": "^4.1.7"
   },
