@@ -1,7 +1,6 @@
 ---
 const {currentCollection, exerciseList} = Astro.props;
-const currentPath = Astro.url.pathname;
-const PageSlug = currentPath.split('/').pop();
+const currentPath = Astro.url.pathname.replace(/\//g, '');
 ---
 
 <aside class="drawer w-auto z-6">
@@ -21,7 +20,7 @@ const PageSlug = currentPath.split('/').pop();
               exerciseList.map((exercise:any) => (
                 <li>
                   <a href={`/${exercise.data.category}/${exercise.data.collection}/${exercise.data.slug}`} 
-                    class={(PageSlug === `${exercise.data.slug}`) ? 'menu-active' : ''}>
+                    class={(currentPath === `${exercise.data.category}${exercise.data.collection}${exercise.data.slug}`) ? 'menu-active' : ''}>
                     {exercise.data.title}
                   </a>
                 </li>
